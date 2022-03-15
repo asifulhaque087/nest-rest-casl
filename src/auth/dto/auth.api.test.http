@@ -1,0 +1,23 @@
+### Create a new user
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+    "name": "user one",
+    "email": "userone@gmail.com",
+    "phone": "01903709156",
+    "password": "password"
+}
+
+
+### login a new user
+POST http://localhost:3000/user/login
+Content-Type: application/json
+
+{
+    "email": "userone@gmail.com",
+    "password": "password"
+}
+
+### fetch all user
+GET http://localhost:3000/user

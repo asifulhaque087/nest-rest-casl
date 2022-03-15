@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { CreateUserDto } from 'src/auth/dto/create-user.dto';
+import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
 import { User, UserDocument } from 'src/auth/entities/user.entity';
 
@@ -11,8 +12,42 @@ export class UserService {
     @InjectModel(User.name) private readonly UserModel: Model<UserDocument>,
   ) {}
 
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.UserModel.findOne({email:createUserDto.email})
+
+    if (user){
+      throw new BadRequestException("User already exists")
+    }
+
+    createUserDto["createdAt"] = new Date()
+
+    let newUser = new this.UserModel(createUserDto)
+    newUser = await newUser.save()
+
+    const token = newUser.getSignedJwtToken()
+
+    return token;
+
+  }
+
+  async login(loginUserDto: LoginUserDto){
+
+    const user = await this.UserModel.findOne({email:loginUserDto.email})
+
+    if (!user){
+      throw new NotFoundException("User not found")
+    }
+
+    const match = await user.matchPassword(loginUserDto.password)
+
+    console.log("user is ",user)
+    if (!match){
+      throw new BadRequestException("Wrong Credentials")
+    }
+
+    const token = user.getSignedJwtToken()
+    return token;
+
   }
 
   findAll() {
