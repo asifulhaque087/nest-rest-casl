@@ -16,6 +16,7 @@ export class PermissionService {
   constructor(
     @InjectModel(Permission.name)
     private readonly PermissionModel: Model<PermissionDocument>,
+    @InjectModel(Role.name) private readonly RoleModel: Model<RoleDocument>,
   ) {}
 
   async create(createPermissionDto: CreatePermissionDto) {
@@ -27,7 +28,16 @@ export class PermissionService {
   }
 
   findAll() {
-    return this.PermissionModel.find()
+    return this.PermissionModel.aggregate([
+        {
+          $lookup: {
+            from: "roles",
+            localField: "_id",
+            foreignField: "permissions",
+            as: "roles",
+          },
+        },
+      ])
   }
 
   async findAllPermissionsOfUser(user: User): Promise<any[]> {
