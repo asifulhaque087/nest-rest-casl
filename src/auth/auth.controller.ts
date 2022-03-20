@@ -8,10 +8,14 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
+import { PermissionService } from 'permission.service';
+import { RoleService } from 'role.service';
 import { UserService } from 'user.service';
 import { AuthService } from './auth.service';
 import { PermissionAction } from './casl-ability.factory';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { CreatePermissionDto } from './dto/create-permission-dto';
+import { CreateRoleDto } from './dto/create-role-dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -87,59 +91,59 @@ export class UserController {
 
 @Controller('role')
 export class RoleController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly roleService: RoleService) {}
 
   @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  create(@Body() createRoleDto: CreateRoleDto) {
+    return this.roleService.create(createRoleDto);
   }
 
   @Get()
   findAll() {
-    return this.authService.findAll();
+    return this.roleService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+    return this.roleService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+    return this.roleService.update(+id, updateAuthDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+    return this.roleService.remove(+id);
   }
 }
 @Controller('permission')
 export class PermissionController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly permissionService: PermissionService) {}
 
   @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  create(@Body() createPermissionDto: CreatePermissionDto) {
+    return this.permissionService.create(createPermissionDto);
   }
 
   @Get()
   findAll() {
-    return this.authService.findAll();
+    return this.permissionService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
+    return this.permissionService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
+    return this.permissionService.update(+id, updateAuthDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+    return this.permissionService.remove(+id);
   }
 }

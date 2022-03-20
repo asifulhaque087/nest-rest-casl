@@ -1,30 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateAuthDto } from 'src/auth/dto/create-auth.dto';
+import { CreateRoleDto } from 'src/auth/dto/create-role-dto';
 import { UpdateAuthDto } from 'src/auth/dto/update-auth.dto';
 import { Role, RoleDocument } from 'src/auth/entities/role.entity';
-import { User, UserDocument } from 'src/auth/entities/user.entity';
+import * as mongoose from 'mongoose';
 
 @Injectable()
 export class RoleService {
   constructor(
-    @InjectModel(Role.name) private readonly UserModel: Model<RoleDocument>,
+    @InjectModel(Role.name) private readonly RoleModel: Model<RoleDocument>,
   ) {}
 
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  async create(createRoleDto: CreateRoleDto) {
+
+    let pId = new mongoose.Types.ObjectId(createRoleDto.permission)
+
+    let newRole = new this.RoleModel()
+
+    newRole.name = createRoleDto.name
+    newRole.permissions.push(pId)
+
+    newRole = await newRole.save()
+    return newRole 
   }
 
   findAll() {
-    console.log('i am from all auth');
-    return `This action returns all auth`;
-  }
-
-  async findAllPermissionsOfUser(user: User): Promise<any[]> {
-    const permissions = [{ action: 'UPDATE', permissionObject: 'User' }];
-    return permissions;
-    return await this.UserModel.find(user);
+    return this.RoleModel.find().populate("permissions")
   }
 
   findOne(id: number) {

@@ -14,8 +14,8 @@ export class User {
   @Prop({ required: true })
   email: string;
 
-  @Prop({ required: true })
-  phone?: string;
+  @Prop()
+  phone: string;
 
   @Prop({ required: true })
   password: string;
@@ -31,6 +31,9 @@ export class User {
 
   @Prop()
   deletedAt: Date;
+
+  @Prop()
+  token: string;
 
   getSignedJwtToken() {
     let user: Partial<UserDocument>

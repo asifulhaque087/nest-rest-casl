@@ -1,3 +1,35 @@
+
+### Create a new permission
+POST http://localhost:3000/permission
+Content-Type: application/json
+
+{
+    "action": "manage",
+    "permissionObject": "all"
+}
+
+
+### fetch all permissions
+GET http://localhost:3000/permission
+
+
+
+### Create a new role
+POST http://localhost:3000/role
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "permission": "62319eb896403fab2c50ef7e"
+}
+
+
+### fetch all role
+GET http://localhost:3000/role
+
+
+
+
 ### Create a new user
 POST http://localhost:3000/user
 Content-Type: application/json
@@ -6,8 +38,13 @@ Content-Type: application/json
     "name": "user one",
     "email": "userone@gmail.com",
     "phone": "01903709156",
-    "password": "password"
+    "password": "password",
+    "role" : "62319ed296403fab2c50ef80"
 }
+
+
+### fetch all user
+GET http://localhost:3000/user
 
 
 ### login a new user
@@ -19,5 +56,10 @@ Content-Type: application/json
     "password": "password"
 }
 
-### fetch all user
-GET http://localhost:3000/user
+
+
+
+
+
+
+

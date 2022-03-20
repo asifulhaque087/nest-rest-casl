@@ -11,7 +11,11 @@ import { User, UserDocument, UserSchema } from './entities/user.entity';
 import { PermissionsGuard } from './permissions.guard';
 import { CaslAbilityFactory } from './casl-ability.factory';
 import { UserService } from 'user.service';
-import * as bcrypt from "bcryptjs"
+import * as bcrypt from 'bcryptjs';
+import { RoleService } from 'role.service';
+import { PermissionService } from 'permission.service';
+import { Role, RoleSchema } from './entities/role.entity';
+import { Permission, PermissionSchema } from './entities/permission.entity';
 
 @Module({
   controllers: [
@@ -20,7 +24,14 @@ import * as bcrypt from "bcryptjs"
     RoleController,
     PermissionController,
   ],
-  providers: [CaslAbilityFactory, PermissionsGuard, AuthService, UserService],
+  providers: [
+    CaslAbilityFactory,
+    PermissionsGuard,
+    AuthService,
+    UserService,
+    RoleService,
+    PermissionService,
+  ],
   // imports: [
   //   MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   // ],
@@ -32,11 +43,11 @@ import * as bcrypt from "bcryptjs"
           const schema = UserSchema;
 
           // pre middleware
-          schema.pre<UserDocument>('save', async function(next) { 
-            if (!this.isModified("password")){
+          schema.pre<UserDocument>('save', async function (next) {
+            if (!this.isModified('password')) {
               next();
             }
-            this.password = await bcrypt.hash(this.password, 12)
+            this.password = await bcrypt.hash(this.password, 12);
             next();
           });
 
@@ -44,6 +55,13 @@ import * as bcrypt from "bcryptjs"
         },
       },
     ]),
+    MongooseModule.forFeature([
+      { name: Role.name, schema: RoleSchema },
+      { name: Permission.name, schema: PermissionSchema },
+    ]),
+    // MongooseModule.forFeature([
+    //   { name: Permission.name, schema: PermissionSchema },
+    // ]),
   ],
   exports: [CaslAbilityFactory, PermissionsGuard],
 })

@@ -34,4 +34,61 @@ const aggregation = [
 // Run the aggregation and open a cursor to the results.
 // Use toArray() to exhaust the cursor to return the whole result set.
 // You can use hasNext()/next() to iterate through the cursor page by page.
-db.sales.aggregate(aggregation);
+// db.sales.aggregate(aggregation);
+
+// db.users.aggregate([
+//     { 
+//         $match:{email:"userone@gmail.com"}
+//     },
+//     {
+//         $lookup: {
+//           from: "roles",
+//           localField: "roles",
+//           foreignField: "_id",
+//           as: "roles",
+//         },
+//       },
+//       {
+//         $unwind: {
+//           path: "$roles",
+//           preserveNullAndEmptyArrays: true
+//         }
+//       },
+//       {
+//         $lookup: {
+//           from: "permissions",
+//           localField: "roles.permissions",
+//           foreignField: "_id",
+//           as: "roles.permissions",
+//         },
+//       },
+//       {
+//         $group: {
+//           _id : "$_id",
+//           name: { $first: "$name" },
+//           email: { $first: "$email" },
+//           password: { $first: "$password" },
+//           roles: { $push: "$roles" }
+//         }
+//       }
+// ])
+
+// db.users.findOne({"email":"userone@gmail.com"})
+
+
+
+// db.permissions.drop();
+
+// db.permissions.insertMany([
+//   {  'action': 'manage', 'permissionObject': "all"},
+// ]);
+// 62319192139ef06a8f03c453
+
+
+// db.roles.drop();
+
+// db.roles.insertMany([
+//   {  'name': 'admin', 'permission': ["62319192139ef06a8f03c453"]},
+// ]);
+// 62319218c17f3bd5e16f65a8
+
