@@ -26,7 +26,8 @@ export class CaslAbilityFactory {
       await this.authService.findAllPermissionsOfUser(user);
     const caslPermissions: CaslPermission[] = dbPermissions.map((p) => ({
       action: PermissionAction[p.action],
-      subject: p.permissionObject,
+      // subject: p.permissionObject,
+      subject: p.subject,
     }));
     console.log('from casle permission ', caslPermissions);
     return new Ability<[PermissionAction, PermissionObjectType]>(

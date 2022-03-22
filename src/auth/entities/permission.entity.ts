@@ -9,7 +9,7 @@ export class Permission {
   action: string;
 
   @Prop({ required: true })
-  permissionObject: string;
+  subject: string;
 }
 
 export const PermissionSchema = SchemaFactory.createForClass(Permission);
