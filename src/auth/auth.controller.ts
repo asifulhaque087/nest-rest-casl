@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { PermissionService } from 'permission.service';
 import { RoleService } from 'role.service';
@@ -127,9 +128,15 @@ export class PermissionController {
     return this.permissionService.create(createPermissionDto);
   }
 
+  // @Get()
+  // findAll(){
+  //   return this.permissionService.findAll();
+  // }
+
   @Get()
-  findAll() {
-    return this.permissionService.findAll();
+  findAll(@Query() query) {
+    console.log("params is ", query)
+    return this.permissionService.findAll(query);
   }
 
   @Get(':id')

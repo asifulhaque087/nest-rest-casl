@@ -25,7 +25,9 @@ export class PermissionService {
 
   }
 
-  async findAll() {
+  async findAll(query) {
+    const {page, perPage} = query
+    let skip = (page-1) * perPage
     const permissions = await this.PermissionModel.aggregate([
         {
           $lookup: {
@@ -35,8 +37,12 @@ export class PermissionService {
             as: "roles",
           },
         },
+        { '$facet': {
+          metadata: [ { $count: "total" }],
+          permissions: [ { $skip: skip }, { $limit: parseInt(perPage) } ] 
+        }}
       ])
-    return permissions
+    return permissions[0]
   }
 
   async findAllPermissionsOfUser(user: User): Promise<any[]> {
