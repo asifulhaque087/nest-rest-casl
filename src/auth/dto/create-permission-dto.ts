@@ -1,10 +1,10 @@
-import {  IsOptional, IsString } from "class-validator";
+import { IsString } from "class-validator";
 export class CreatePermissionDto {
 
     @IsString()
     action : string
     
     @IsString()
-    permissionObject : string
+    subject : string
 
 }

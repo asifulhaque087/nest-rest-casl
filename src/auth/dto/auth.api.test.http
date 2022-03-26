@@ -5,7 +5,7 @@ Content-Type: application/json
 
 {
     "action": "manage",
-    "permissionObject": "all"
+    "subj": "user"
 }
 
 
