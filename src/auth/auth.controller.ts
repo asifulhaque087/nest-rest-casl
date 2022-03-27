@@ -135,7 +135,6 @@ export class PermissionController {
 
   @Get()
   findAll(@Query() query) {
-    console.log("params is ", query)
     return this.permissionService.findAll(query);
   }
 
@@ -151,6 +150,6 @@ export class PermissionController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.permissionService.remove(+id);
+    return this.permissionService.remove(id);
   }
 }

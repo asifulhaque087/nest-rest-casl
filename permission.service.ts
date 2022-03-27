@@ -59,7 +59,7 @@ export class PermissionService {
     return `This action updates a #${id} auth`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  remove(id: string) {
+    return this.PermissionModel.findByIdAndRemove(id)
   }
 }
